@@ -8,11 +8,14 @@ namespace Account
 {
 
     public delegate void AccountHandler(string message);
+    public delegate void Accounthand(string mmm);
+    
     public class AccountCl
     {
         int sum;
         string fio;
         AccountHandler taken;
+        
         public AccountCl(int sum,string fio)
         {
             this.sum = sum;
@@ -28,7 +31,11 @@ namespace Account
         {
             taken -= del; // удаляем делегат
         }
-        public void Add(int sum) => this.sum += sum;
+        public void Add(int sum)
+        {
+            this.sum += sum;
+            taken?.Invoke($"На счет пополнен на: {this.sum} у.е.");
+        }
         public void Take(int sum)
         {
             if (this.sum >= sum)
@@ -39,5 +46,37 @@ namespace Account
             else
                 taken?.Invoke($"Недостаточно средств. Баланс: {this.sum} у.е.");
         }
+    }
+    public class xxx
+    {
+        public int mani;
+        event Accounthand zo;
+        
+        public xxx(int s)
+        {
+            this.mani = s;
+        }
+
+        public void RegHandler(Accounthand del)
+        {
+            zo += del;
+        }
+
+        public void Ad(int sum)
+        {
+            this.mani += mani;
+            zo?.Invoke($"На счет пополнен на: {this.mani} у.е.");
+        }
+        public void Ta(int sum)
+        {
+            if (this.mani >= sum)
+            {
+                this.mani -= mani;
+                zo?.Invoke($"Со счета списано {mani} у.е.");
+            }
+            else
+                zo?.Invoke ($"Недостаточно средств. Баланс: {this.mani} у.е.");
+        }
+
     }
 }
